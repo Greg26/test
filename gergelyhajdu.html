@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gergely Hajdu — Behavioral Economist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-mid: #4a4740;
+    --ink-light: #8a8780;
+    --paper: #f8f6f1;
+    --paper-warm: #f0ede6;
+    --accent: #2d5a3d;
+    --accent-light: #e8f0eb;
+    --accent-mid: #4a7c5e;
+    --rule: rgba(26,24,20,0.12);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 3rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    backdrop-filter: blur(6px);
+  }
+
+  .nav-name {
+    font-family: var(--serif);
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-mid);
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem 5rem 5rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .hero-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 400;
+    line-height: 1.08;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-bio {
+    font-size: 1rem;
+    color: var(--ink-mid);
+    max-width: 42ch;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-meta-item {
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .hero-meta-item strong {
+    color: var(--ink-mid);
+    font-weight: 400;
+  }
+
+  .hero-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.2s;
+    font-weight: 400;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border: 1px solid var(--accent);
+  }
+
+  .btn-primary:hover { background: var(--accent-mid); border-color: var(--accent-mid); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--ink-mid);
+    border: 1px solid var(--rule);
+  }
+
+  .btn-outline:hover { border-color: var(--ink-mid); color: var(--ink); }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem 4rem;
+    background: var(--paper-warm);
+  }
+
+  .interests-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-bottom: 2rem;
+  }
+
+  .interest-cell {
+    background: var(--paper-warm);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+
+  .interest-cell:hover { background: var(--accent-light); }
+
+  .interest-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .interest-text {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .stat-item {}
+
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+
+  /* SECTION GENERIC */
+  section { padding: 6rem 0; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* RESEARCH */
+  #research { background: white; }
+
+  .research-category {
+    margin-bottom: 3.5rem;
+  }
+
+  .category-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--accent-light);
+    font-weight: 500;
+  }
+
+  .paper-card {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1.5rem;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.15s;
+  }
+
+  .paper-card:last-child { border-bottom: none; }
+
+  .paper-year {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--ink-light);
+    font-weight: 400;
+    padding-top: 0.1rem;
+  }
+
+  .paper-body {}
+
+  .paper-title {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1.4;
+    display: inline;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .paper-title:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .paper-new {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  .paper-venue {
+    font-size: 0.82rem;
+    color: var(--accent);
+    margin-top: 0.4rem;
+    font-style: italic;
+  }
+
+  .paper-authors {
+    font-size: 0.82rem;
+    color: var(--ink-light);
+    margin-top: 0.3rem;
+  }
+
+  .paper-abstract {
+    font-size: 0.88rem;
+    color: var(--ink-mid);
+    margin-top: 0.8rem;
+    line-height: 1.7;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .paper-abstract.open { max-height: 300px; }
+
+  .abstract-toggle {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    cursor: pointer;
+    margin-top: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border: none;
+    background: none;
+    font-family: var(--sans);
+    padding: 0;
+    transition: color 0.2s;
+  }
+
+  .abstract-toggle:hover { color: var(--accent); }
+
+  .abstract-toggle .arrow {
+    display: inline-block;
+    transition: transform 0.3s;
+    font-size: 0.7rem;
+  }
+
+  .abstract-toggle.open .arrow { transform: rotate(180deg); }
+
+  /* WORKING PAPERS */
+  .wp-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    margin-bottom: 1.2rem;
+    border-radius: 2px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .wp-card:hover {
+    border-color: var(--accent);
+  }
+
+  .wp-status {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+
+  .status-review { background: #fff3cd; color: #7d5700; }
+  .status-progress { background: var(--accent-light); color: var(--accent); }
+
+  .wp-title {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1.4;
+    display: block;
+    margin-bottom: 0.4rem;
+    transition: color 0.2s;
+  }
+
+  .wp-title:hover { color: var(--accent); }
+
+  .wp-coauthors {
+    font-size: 0.82rem;
+    color: var(--ink-light);
+    margin-bottom: 0.8rem;
+  }
+
+  .wp-excerpt {
+    font-size: 0.88rem;
+    color: var(--ink-mid);
+    line-height: 1.75;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .wp-excerpt.open { max-height: 500px; }
+
+  /* ABOUT / CV */
+  #about { background: var(--paper-warm); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text {
+    font-size: 1rem;
+    color: var(--ink-mid);
+    line-height: 1.85;
+    font-weight: 300;
+  }
+
+  .about-text p { margin-bottom: 1.2rem; }
+
+  .cv-block {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    border-radius: 2px;
+  }
+
+  .cv-title {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .cv-item {
+    display: flex;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.9rem;
+  }
+
+  .cv-item:last-child { border-bottom: none; }
+
+  .cv-year {
+    color: var(--ink-light);
+    min-width: 50px;
+    font-size: 0.82rem;
+    padding-top: 0.1rem;
+  }
+
+  .cv-detail { color: var(--ink-mid); line-height: 1.5; }
+
+  .cv-detail strong { color: var(--ink); font-weight: 500; display: block; }
+
+  .cv-download {
+    display: block;
+    margin-top: 1.5rem;
+    text-align: center;
+    padding: 0.7rem;
+    border: 1px dashed var(--rule);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .cv-download:hover { background: var(--accent-light); border-style: solid; }
+
+  /* CONTACT */
+  #contact { background: var(--ink); }
+
+  #contact .section-label { color: var(--accent-mid); }
+  #contact h2 { color: var(--paper); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .contact-text {
+    font-size: 1rem;
+    color: rgba(248,246,241,0.55);
+    line-height: 1.8;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px;
+    text-decoration: none;
+    color: var(--paper);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+
+  .contact-link:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--accent-mid);
+  }
+
+  .contact-link-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: rgba(248,246,241,0.3);
+    letter-spacing: 0.05em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .hero-tag { animation-delay: 0.1s; }
+  h1 { animation-delay: 0.25s; }
+  .hero-bio { animation-delay: 0.4s; }
+  .hero-meta { animation-delay: 0.5s; }
+  .cta-row { animation-delay: 0.6s; }
+
+  .hero-right {
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.5s forwards;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 4rem 2rem 3rem; border-right: none; border-bottom: 1px solid var(--rule); }
+    .hero-right { padding: 3rem 2rem; }
+    .interests-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 1.5rem; }
+    section { padding: 4rem 0; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .paper-card { grid-template-columns: 1fr; }
+    .paper-year { font-size: 0.8rem; color: var(--accent); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#top" class="nav-name">Gergely Hajdu</a>
+  <ul class="nav-links">
+    <li><a href="#research">Research</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="top">
+  <div class="hero-left">
+    <div class="hero-tag">Behavioral Economics</div>
+    <h1>Beliefs &amp;<br><em>decisions</em><br>that matter</h1>
+    <p class="hero-bio">
+      I study how people form beliefs and make choices in situations that are personally significant — using lab experiments and economic theory to understand what shapes our reasoning and behavior.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-dot"></span>
+        <span>Postdoctoral Researcher</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-dot"></span>
+        <strong>Faculty of Economics &amp; Administration, Masaryk University</strong>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-dot"></span>
+        <span>Brno, Czech Republic</span>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a href="#research" class="btn btn-primary">View Research →</a>
+      <a href="https://sites.google.com/view/gergelyhajdu/curriculum-vitae" class="btn btn-outline" target="_blank">Download CV</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="interests-grid">
+      <div class="interest-cell">
+        <div class="interest-label">Area I</div>
+        <div class="interest-text">Belief formation &amp; motivated reasoning</div>
+      </div>
+      <div class="interest-cell">
+        <div class="interest-label">Area II</div>
+        <div class="interest-text">Choice-induced distortions in learning</div>
+      </div>
+      <div class="interest-cell">
+        <div class="interest-label">Area III</div>
+        <div class="interest-text">Overconfidence &amp; self-serving biases</div>
+      </div>
+      <div class="interest-cell">
+        <div class="interest-label">Area IV</div>
+        <div class="interest-text">Organizational &amp; workplace inequality</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Publications</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Working Papers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Work in Progress</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Scholarship</span>
+      <h2>Research</h2>
+    </div>
+
+    <!-- Publications -->
+    <div class="research-category">
+      <div class="category-title">Publications</div>
+
+      <div class="paper-card">
+        <div class="paper-year">2025</div>
+        <div class="paper-body">
+          <a href="https://www.sciencedirect.com/science/article/pii/S0167268125000599?via%3Dihub" class="paper-title" target="_blank">Lengthy waiting corrupts, especially when unexpected</a>
+          <span class="paper-new">New</span>
+          <div class="paper-venue">Journal of Economic Behavior and Organization</div>
+          <div class="paper-authors">with Yossef Tobol &amp; Linda Dezső</div>
+          <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="arrow">▾</span></button>
+          <div class="paper-abstract">This paper investigates the relationship between waiting time and dishonest behavior, finding that unexpected delays are particularly corrosive to ethical conduct. The results have implications for how institutions and organizations design waiting experiences and manage expectations.</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-year">2024</div>
+        <div class="paper-body">
+          <a href="https://research.wu.ac.at/en/publications/the-great-separation-top-earner-segregation-at-work-in-advanced-c" class="paper-title" target="_blank">The Great Separation: Top Earner Segregation at Work in Advanced Capitalist Economies</a>
+          <div class="paper-venue">American Journal of Sociology</div>
+          <div class="paper-authors">with Olivier Godechot and others</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-year">2022</div>
+        <div class="paper-body">
+          <a href="https://www.nature.com/articles/s41562-022-01470-z" class="paper-title" target="_blank">Within-job gender pay inequality in 15 countries</a>
+          <div class="paper-venue">Nature Human Behaviour</div>
+          <div class="paper-authors">with Andrew Penner and others</div>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-year">2020</div>
+        <div class="paper-body">
+          <a href="https://www.pnas.org/content/pnas/117/17/9277.full.pdf" class="paper-title" target="_blank">Rising between-workplace inequalities in high-income countries</a>
+          <div class="paper-venue">Proceedings of the National Academy of Sciences</div>
+          <div class="paper-authors">with Donald Tomaskovic-Devey and others</div>
+          <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="arrow">▾</span></button>
+          <div class="paper-abstract">Using linked employer-employee data from 12 countries, this paper documents a systematic rise in income inequality driven primarily by increasing differences between workplaces, rather than within them — challenging standard explanations that focus on individual skills or occupation-level wage changes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Working Papers -->
+    <div class="research-category">
+      <div class="category-title">Working Papers</div>
+
+      <div class="wp-card">
+        <span class="wp-status status-review">Under Review</span>
+        <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5609552" class="wp-title" target="_blank">Informed Choice Increases Perceived Quality Gap</a>
+        <div class="wp-coauthors">with Balázs Krusper &nbsp;·&nbsp; <em>formerly: How Does Choice Affect Beliefs?</em></div>
+        <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="arrow">▾</span></button>
+        <div class="wp-excerpt">We study in the lab how choosing one of two products affects beliefs about their qualities. Using a between-subject design, we randomize both ownership mode (choice vs. assignment) and whether a product appears favorable by pairing it with an objectively better or worse alternative. We find that choosing magnifies the belief gap between the owned and unowned alternative, driven almost entirely by newly formed downwardly distorted beliefs about rejected options. Additionally, prompting participants to focus on product qualities before choosing attenuates this effect — suggesting attention is a key driver. The results provide support for active choice policies over opt-out defaults.</div>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-status status-review">Working Paper</span>
+        <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4793536" class="wp-title" target="_blank">Overconfidence Due to a Self-reliance Dilemma</a>
+        <div class="wp-coauthors">with Nikola Frollová</div>
+        <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="arrow">▾</span></button>
+        <div class="wp-excerpt">Choosing between payment based on one's own or others' performance is inherent in most delegation decisions. We propose and test that such self-reliance dilemmas result in motivated reasoning. Learning about the dilemma decreases participants' beliefs about their counterpart's performance advantage by an average of 17%, causes overestimation of own performance, and increases the fraction who falsely believe they outperformed their counterpart. Organizations should carefully manage delegation decisions and implement measures to curb overconfidence.</div>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-status status-review">Working Paper</span>
+        <a href="https://research.wu.ac.at/ws/portalfiles/portal/46226538/WP349.pdf" class="wp-title" target="_blank">Choice-induced Sticky Learning</a>
+        <div class="wp-coauthors">with Balázs Krusper</div>
+        <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="arrow">▾</span></button>
+        <div class="wp-excerpt">We study how choosing a product affects learning about products after the choice. Participants who choose investments respond less to price changes than those who receive investments exogenously — for both own and non-owned investments, and for both good and bad news. A structural model shows that learning is close to Bayesian after exogenous allocation, while it is too sticky after making a choice.</div>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-status status-review">Working Paper</span>
+        <a href="https://research.wu.ac.at/ws/portalfiles/portal/62095607/WP362.pdf" class="wp-title" target="_blank">Excusing Beliefs about Third-party Success</a>
+        <div class="wp-coauthors">Single-authored</div>
+        <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="arrow">▾</span></button>
+        <div class="wp-excerpt">I investigate whether people distort beliefs about third parties — such as the ability of scientists to offset one's environmental impact — to excuse self-interested behavior. In a lab experiment, beliefs are 13 percentage points higher when it is the failure (rather than success) of a third party that results in taking money from passive participants. The results suggest that people use belief-based excuses about third-party success.</div>
+      </div>
+    </div>
+
+    <!-- Work in Progress -->
+    <div class="research-category">
+      <div class="category-title">Work in Progress</div>
+
+      <div class="wp-card">
+        <span class="wp-status status-progress">Under Review (Registered Report)</span>
+        <span class="wp-title" style="cursor:default;">Spectators under the influence: Sequential redistributive choices exacerbate the merit-primacy effect</span>
+        <div class="wp-coauthors">with Linda Dezső, Valeriia Chukaeva &amp; Antal Ertl</div>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-status status-progress">In Progress</span>
+        <span class="wp-title" style="cursor:default;">Internal Belief Constructs and Motivated Information Acquisition</span>
+        <div class="wp-coauthors">with Kathleen Ngangoue, Keyu Wu &amp; Yan Xu</div>
+      </div>
+
+      <div class="wp-card">
+        <span class="wp-status status-progress">In Progress</span>
+        <span class="wp-title" style="cursor:default;">Sinners and Saints: How Narratives Affect Moral Behaviour</span>
+        <div class="wp-coauthors">with Dan McGee</div>
+        <button class="abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="arrow">▾</span></button>
+        <div class="wp-excerpt">We model decision problems where agents care about their self-image and choose beliefs about others' moral actions in a flexible way. We establish a hypothesis testing equilibrium (HTE) in which agents hold self-serving beliefs about others' behavior, provided these beliefs are rationalizable and sufficiently plausible. We analyze how increased behavioral visibility in society affects overall morality — finding it is detrimental when saints are praised, but desirable when sinners are punished.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Background</span>
+      <h2>About</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I am a behavioral economist specializing in how people form beliefs and make decisions in areas that are personally important to them — particularly in economic situations with real stakes.</p>
+        <p>My research uses both theoretical models and laboratory experiments to isolate the key cognitive and motivational forces that shape beliefs and choices. A recurring theme across my work is motivated reasoning: the tendency to arrive at beliefs that are convenient rather than accurate.</p>
+        <p>I have also collaborated with large international teams on questions of organizational inequality, working with administrative linked employer-employee datasets across many countries and applying methods from empirical microeconomics.</p>
+        <p>Currently, I am a postdoc at the Faculty of Economics and Administration at Masaryk University in Brno.</p>
+      </div>
+      <div>
+        <div class="cv-block">
+          <div class="cv-title">Academic Positions</div>
+          <div class="cv-item">
+            <span class="cv-year">Now</span>
+            <div class="cv-detail">
+              <strong>Postdoctoral Researcher</strong>
+              Faculty of Economics &amp; Administration, Masaryk University
+            </div>
+          </div>
+        </div>
+
+        <div class="cv-block" style="margin-top:1rem;">
+          <div class="cv-title">Affiliations &amp; Collaborations</div>
+          <div class="cv-item">
+            <span class="cv-year"></span>
+            <div class="cv-detail">International inequality research teams across 12+ countries</div>
+          </div>
+          <div class="cv-item">
+            <span class="cv-year"></span>
+            <div class="cv-detail">WU Vienna — collaborative research on workplace inequality</div>
+          </div>
+          <a href="https://sites.google.com/view/gergelyhajdu/curriculum-vitae" class="cv-download" target="_blank">⬇ Download Full CV (PDF)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header" style="border-bottom-color: rgba(255,255,255,0.1);">
+      <span class="section-label">Get in touch</span>
+      <h2>Contact</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-text">
+        I welcome correspondence about my research, potential collaborations, or discussions about behavioral economics. Feel free to reach out by email.
+      </div>
+      <div class="contact-info">
+        <a href="mailto:gergely.hajdu@econ.muni.cz" class="contact-link">
+          <span>
+            <span class="contact-link-label">Email</span>
+            gergely.hajdu@econ.muni.cz
+          </span>
+        </a>
+        <a href="https://sites.google.com/view/gergelyhajdu/" class="contact-link" target="_blank">
+          <span>
+            <span class="contact-link-label">Current Website</span>
+            sites.google.com/view/gergelyhajdu
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Gergely Hajdu</span>
+  <span>Faculty of Economics &amp; Administration · Masaryk University · Brno</span>
+</footer>
+
+<script>
+function toggleAbstract(btn) {
+  const card = btn.closest('.paper-card, .wp-card');
+  const target = card.querySelector('.paper-abstract, .wp-excerpt');
+  if (!target) return;
+  const isOpen = target.classList.contains('open');
+  target.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.querySelector('.arrow').textContent = isOpen ? '▾' : '▴';
+}
+</script>
+</body>
+</html>
